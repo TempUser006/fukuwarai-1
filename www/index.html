@@ -18,8 +18,9 @@
       }
     </style>  
   
-  <script type="text/javascript" src="js/animation.js"></script>
-  <script type="text/javascript" src="js/roulette.js"></script>
+  <script src="js/animation.js"></script>
+  <script src="js/roulette.js"></script>
+  <script src="js/b64utils.js"></script>
   <script>
         /********
          *ページ*
@@ -79,6 +80,37 @@
         function Fukuwarai () {
             document.querySelector('#navigator').pushPage('page3.html');
         }
+        function SaveFukuwarai () {
+          var myCanvas = $("canvas#canvas").get(0);
+          var url = myCanvas.toDataURL("image/png");
+          var base64data = url.split(',')[1];
+ 
+          var array = b64utils.decode( base64data );
+            
+          window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {  
+            fs.root.getFile("myimage.png" , {create:true, exclusive:false}, 
+              function(entry) {
+                entry.createWriter( 
+                  function(writer) {
+ 
+                    var cb = function() {
+                      console.log("write end"); alert("Save OK");
+                    }
+ 
+                    writer.onwrite = cb;
+                    writer.onerror = function() { console.log("write error"); }
+                    writer.write( array );
+ 
+                  } ,
+                  function() {
+                    console.log("create write error");
+                  }
+                );
+              } ,
+              function(){ }
+            );
+          }, function() { });
+        }
         function Roulette () {
             document.querySelector('#navigator').pushPage('page4.html');
         }
@@ -117,9 +149,9 @@
   </ons-template>
   
   <ons-template id="page3.html">
-    <ons-page id="third-page">  
-        <canvas id="tmp" height="385" width="470"></canvas>  
-        <canvas id="canvas" height="385" width="470"></canvas>
+    <ons-page id="third-page" style="text-align: center">
+        <canvas id="canvas" height="500" width="470"></canvas>
+        <ons-button id="save_fukuwarai" onclick="SaveFukuwarai()">保存する</ons-button>
     </ons-page>
   </ons-template>
     <ons-template id="page4.html">

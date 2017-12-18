@@ -1,14 +1,21 @@
 function canvas_fukuwarai() {
-    var template = document.getElementById('tmp');
-    var tmp = template.getContext('2d');
-    var img = new Image();
-    img.src = "image/tmp.jpg";
-    img.onload = function() {
-        tmp.drawImage(img, 0, 0);
-    }
+    // var template = document.getElementById('tmp');
+    // var tmp = template.getContext('2d');
+    // var img = new Image();
+    // img.src = "image/tmp.jpg";
+    // img.onload = function() {
+    //     tmp.drawImage(img, 0, 0);
+    // }
     
     var canvas  = document.getElementById('canvas');
     var context = canvas.getContext('2d');
+    
+    
+    var img3 = new Image();
+    img3.src = "image/tmp.jpg";
+    img3.onload = function() {
+        context.drawImage(img3, 0, 100);
+    }
 
     var isTouch = false;
     var dragTarget = null; // ドラッグ対象の画像の添え字
@@ -31,7 +38,7 @@ function canvas_fukuwarai() {
         images[i].addEventListener('load', function() {
             if (++loadedCount == images.length) {
                 var x = 0;
-                var y = 0;
+                var y = 50;
                 var w = 40;
                 var h = 35;
                 for (var j in images) {
@@ -44,7 +51,7 @@ function canvas_fukuwarai() {
                     // 画像を描画
                     context.drawImage(images[j], x, y, w, h);
                     x += 50;
-                    y += 70;
+                    //y += 70;
                 }
             }
         }, false);
@@ -92,6 +99,7 @@ function canvas_fukuwarai() {
         if (isTouch) {
             // canvas内を一旦クリア
             context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(img3, 0, 100);//先に背景を登録する
 
             var x = 0;
             var y = 0;

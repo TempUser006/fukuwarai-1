@@ -16,6 +16,15 @@
       canvas{
           width: 100%;
       }
+        .main-btn{
+            border-radius: 2em;
+            padding: 1em;
+            font-size: x-large;
+        }
+        ons-icon{
+            width :2em;
+            height:2em;
+        }
     </style>  
   
   <script src="js/animation.js"></script>
@@ -37,8 +46,14 @@
             }
         }else if(page.id === "third-page"){
             canvas_fukuwarai();
+            page.querySelector('#pop-button').onclick = function() {
+              document.querySelector('#navigator').popPage();
+            }
         }else if(page.id === "fourth-page"){
             canvas_roulette();
+            page.querySelector('#pop-button').onclick = function() {
+              document.querySelector('#navigator').popPage();
+            }
         }
           
         var img = null;
@@ -123,13 +138,8 @@
     <ons-page id="first-page">
         <div class="content" style="text-align: center">
           <h1>Fukuwarai</h1>
-        <ons-button id="to-cam" onclick="snapPicture()"><ons-icon icon="fa-camera"></ons-icon> Camera</ons-button>
-        <br /><br />
-        <ons-button id="to-lib" onclick="getPhoto()"><ons-icon icon="fa-picture-o"></ons-icon> Library</ons-button>
-        <br /><br />
-        <ons-button id="to-fuk" onclick="Fukuwarai()"><ons-icon icon="fa-picture-o"></ons-icon> 福笑い</ons-button>
-        <br /><br />
-        <ons-button id="to-rou" onclick="Roulette()"><ons-icon icon="fa-picture-o"></ons-icon> ルーレット</ons-button>
+        <ons-button id="to-cam" onclick="snapPicture()" class="main-btn"><ons-icon icon="fa-camera"></ons-icon></ons-button>
+        <ons-button id="to-lib" onclick="getPhoto()" class="main-btn"><ons-icon icon="fa-picture-o"></ons-icon></ons-button>
         </div>
     </ons-page>
   </ons-template>
@@ -144,6 +154,14 @@
         </div>
         <ons-button id="pop-button">やり直す</ons-button>
         <ons-button id="do-button">実行</ons-button>
+        <br /><br />
+        <ons-button id="to-fuk" onclick="Fukuwarai()"><ons-icon icon="fa-picture-o"></ons-icon> 福笑い</ons-button>
+        <br /><br />
+        <ons-button id="to-rou" onclick="Roulette()"><ons-icon icon="fa-picture-o"></ons-icon> ルーレット</ons-button>
+          
+        <br /><br />
+        <ons-button id="to-cam" onclick="snapPicture()" class="main-btn"><ons-icon icon="fa-camera"></ons-icon></ons-button>
+        <ons-button id="to-lib" onclick="getPhoto()" class="main-btn"><ons-icon icon="fa-picture-o"></ons-icon></ons-button>
       </div>
     </ons-page>
   </ons-template>
@@ -152,20 +170,23 @@
     <ons-page id="third-page" style="text-align: center">
         <canvas id="canvas" height="500" width="470"></canvas>
         <ons-button id="save_fukuwarai" onclick="SaveFukuwarai()">保存する</ons-button>
+        <ons-button id="pop-button">やり直す</ons-button>
     </ons-page>
   </ons-template>
     <ons-template id="page4.html">
     <ons-page id="fourth-page">
       <div class="content" style="text-align: center">
-        <button id="start">スタート！</button>
+        <ons-button id="start">スタート！</ons-button>
         <div id="canvases">
             <canvas id="top" width="300" height="50"></canvas>      
             <canvas id="middle" width="300" height="50"></canvas>
             <canvas id="bottom" width="300" height="50"></canvas>
-            <button id="top_stop">ストップ01</button>
-            <button id="middle_stop">ストップ02</button>
-            <button id="bottom_stop">ストップ03</button>
+            <ons-button id="top_stop">ストップ01</ons-button>
+            <ons-button id="middle_stop">ストップ02</ons-button>
+            <ons-button id="bottom_stop">ストップ03</ons-button>
         </div>
+        <br />
+        <ons-button id="pop-button">やり直す</ons-button>
       </div>
     </ons-page>
   </ons-template>

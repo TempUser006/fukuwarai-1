@@ -11,26 +11,28 @@
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
-
-    <style>
-      canvas{
-          width: 100%;
-      }
-        .main-btn{
-            border-radius: 2em;
-            padding: 1em;
-            font-size: x-large;
-        }
-        ons-icon{
-            width :2em;
-            height:2em;
-        }
-    </style>  
-  
+  <style>
+    canvas{
+        width: 100%;
+    }
+    .main-btn{
+        border-radius: 2em;
+        padding: 1em;
+        font-size: x-large;
+    }
+    ons-icon{
+        width :2em;
+        height:2em;
+    }
+  </style>
   <script src="js/animation.js"></script>
   <script src="js/roulette.js"></script>
   <script src="js/b64utils.js"></script>
   <script>
+        $.ajaxSetup({ cache: false });
+        var img = [];//元画像配列
+        var rou = [];//ルーレット画像配列
+        var fuk = [];//福笑い画像配列
         /********
          *ページ*
          ********/
@@ -45,31 +47,29 @@
               document.querySelector('#navigator').popPage();
             }
         }else if(page.id === "third-page"){
-            canvas_fukuwarai();
+            canvas_fukuwarai(fuk);
             page.querySelector('#pop-button').onclick = function() {
               document.querySelector('#navigator').popPage();
             }
         }else if(page.id === "fourth-page"){
-            canvas_roulette();
+            canvas_roulette(rou);
             page.querySelector('#pop-button').onclick = function() {
               document.querySelector('#navigator').popPage();
             }
         }
           
-        var img = null;
         });
         /********
          * 写真 *
          ********/
-        function snapPicture () {
+        function snapPicture () {//カメラ撮影
             navigator.camera.getPicture (onSuccess, onFail,
                                          { quality: 50, destinationType: Camera.DestinationType.DATA_URL});
             //A callback function when snapping picture is success.
             function onSuccess (imageData) {
                 document.querySelector('#navigator').pushPage('page2.html',{data:{img:"data:image/jpeg;base64,"+imageData}});
-        //             console.log('Success!');
-        //             var image = document.getElementById ('picture');
-        //             image.src = "data:image/jpeg;base64," + imageData;
+                img.push(imageData);
+                console.log(img.length);
             }
         
             //A callback function when snapping picture is fail.
@@ -77,14 +77,14 @@
                 alert ('Error occured: ' + message);
             }
         }
-        function getPhoto () {            
-            navigator.camera.getPicture(onSuccess, onFail, { quality: 50,destinationType: Camera.DestinationType.FILE_URI,
+        function getPhoto () {//カメラロール        
+            navigator.camera.getPicture(onSuccess, onFail, { quality: 50,destinationType: Camera.DestinationType.DATA_URL,
               sourceType: navigator.camera.PictureSourceType.SAVEDPHOTOALBUM });
-            function onSuccess (imageURI) {
-                document.querySelector('#navigator').pushPage('page2.html',{data:{img:imageURI}});
+            function onSuccess (imageData) {
+                document.querySelector('#navigator').pushPage('page2.html',{data:{img:"data:image/jpeg;base64,"+imageData}});
                 
-                console.log('Success!');
-                document.getElementById('picture').src = imageURI;
+                img.push(imageData);
+                console.log(img.length);
             }
             function onFail (message) {
                 alert('An error Occured: ' + message);
@@ -93,7 +93,11 @@
         
         
         function Fukuwarai () {
-            document.querySelector('#navigator').pushPage('page3.html');
+            var Fupload = F_upload('fukuwarai',img);
+            $.when(Fupload).done(function(res){
+                fuk = res;
+                document.querySelector('#navigator').pushPage('page3.html');
+            });
         }
         function SaveFukuwarai () {
           var myCanvas = $("canvas#canvas").get(0);
@@ -127,7 +131,39 @@
           }, function() { });
         }
         function Roulette () {
-            document.querySelector('#navigator').pushPage('page4.html');
+            var Fupload = F_upload('roulette',img);
+            $.when(Fupload).done(function(res){
+                rou = res;
+                document.querySelector('#navigator').pushPage('page4.html');
+            });
+        }
+        function F_upload(method,image){
+                var defer = new $.Deferred();
+                $.ajax({
+                    url:'http://wtr0201.xsrv.jp/FukReturnTest/request.php',//TODO::かく
+                    type:'POST',
+                    data:{
+                        'image' : image,
+                        'method': method
+                    }
+                })
+                .done(function(data){
+                    switch(method){
+                        case 'fukuwarai':
+                            fuk.push(data);
+                            break;
+                        case 'roulette':
+                            rou.push(data);
+                            break;
+                        default:
+                            break;
+                    }
+                    defer.resolve(data);
+                })
+                .fail(function(){
+                    console.log('エラー');
+                });
+            return defer.promise(this);
         }
   </script>
 </head>
@@ -148,7 +184,6 @@
     <ons-page id="second-page">
 
       <div class="content" style="text-align: center">
-        <p>画像取得後のページ</p>
         <div id="imgarea">
             <img id="picture" src="" style="width:100%" />
         </div>

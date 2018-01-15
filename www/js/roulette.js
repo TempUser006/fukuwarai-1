@@ -1,4 +1,4 @@
-function canvas_roulette(){
+function canvas_roulette(rou){
     var topImage = [];//目の部分の画像を格納しておく配列
     var middleImage = [];//鼻の部分の画像を格納しておく配列
     var bottomImage = [];//口の部分の画像を格納しておく配列
@@ -11,37 +11,35 @@ function canvas_roulette(){
     var bottomCanvas = $('#bottom').get(0).getContext("2d");
     
     //画像名（目）を格納しておく配列
-    var topSrc = [
-        "e0.jpg","e1.jpg","e2.jpg","e3.jpg","e4.jpg","e5.jpg","e6.jpg","e7.jpg","e8.jpg","e9.jpg","e10.jpg",
-        "e11.jpg","e12.jpg","e13.jpg","e14.jpg","e15.jpg","e16.jpg","e17.jpg","e18.jpg","e19.jpg","e20.jpg"
-        ];
+    var topSrc = [];
     //画像名（鼻）を格納しておく配列
-    var middleSrc = [
-        "n0.jpg","n1.jpg","n2.jpg","n3.jpg","n4.jpg","n5.jpg","n6.jpg","n7.jpg","n8.jpg","n9.jpg","n10.jpg",
-        "n11.jpg","n12.jpg","n13.jpg","n14.jpg","n15.jpg","n16.jpg","n17.jpg","n18.jpg","n19.jpg","n20.jpg"
-        ];
+    var middleSrc = [];
     //画像名（口）を格納しておく配列
-    var bottomSrc = [
-        "m0.jpg","m1.jpg","m2.jpg","m3.jpg","m4.jpg","m5.jpg","m6.jpg","m7.jpg","m8.jpg","m9.jpg","m10.jpg",
-        "m11.jpg","m12.jpg","m13.jpg","m14.jpg","m15.jpg","m16.jpg","m17.jpg","m18.jpg","m19.jpg","m20.jpg"
-        ];
+    var bottomSrc = [];
+    
+    for(var i = 0; i < rou.length; i++) {
+        topSrc.push(rou[i]['eye']);
+        middleSrc.push(rou[i]['nose']);
+        bottomSrc.push(rou[i]['mouth']);
+    }
+    console.log(topSrc);
     
     /* Imageのオブジェクトを取得する　*/
     for (var i in topSrc) {
         topImage[i] = new Image();
-        topImage[i].src = "image/roulette/eye/" + topSrc[i];
+        topImage[i].src = topSrc[i];
     }
     //鼻の部分の画像を格納しておく配列
     var middleImage = [];
     for (var i in middleSrc) {
         middleImage[i] = new Image();
-        middleImage[i].src = "image/roulette/nose/" + middleSrc[i];
+        middleImage[i].src = middleSrc[i];
     }
     //口の部分の画像を格納しておく配列
     var bottomImage = [];
     for (var i in bottomSrc) {
         bottomImage[i] = new Image();
-        bottomImage[i].src = "image/roulette/mouth/" + bottomSrc[i];
+        bottomImage[i].src = bottomSrc[i];
     }
     
     
@@ -79,8 +77,6 @@ function canvas_roulette(){
         clearInterval(bottomStop);
     });
     
-    
-    console.log('Welcome!');
     //画像をランダムで描画させる TODO::できない 
     topDraw();
     middleDraw();

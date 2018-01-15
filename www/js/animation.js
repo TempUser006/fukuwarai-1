@@ -1,4 +1,4 @@
-function canvas_fukuwarai() {
+function canvas_fukuwarai(fuk) {
     // var template = document.getElementById('tmp');
     // var tmp = template.getContext('2d');
     // var img = new Image();
@@ -21,12 +21,21 @@ function canvas_fukuwarai() {
     var dragTarget = null; // ドラッグ対象の画像の添え字
 
     //Canvasに表示する画像ファイル名を格納しておく配列
-    var srcs = [
-        'image/fuku/eye01.PNG',
-        'image/fuku/eye02.PNG',
-        'image/fuku/nose.PNG',
-        'image/fuku/mouth.PNG'
-    ];
+//     var srcs = [
+//         'image/fuku/eye01.PNG',
+//         'image/fuku/eye02.PNG',
+//         'image/fuku/nose.PNG',
+//         'image/fuku/mouth.PNG'
+//     ];
+    var srcs = [];
+    for(var i = 0; i < fuk.length; i++) {
+        srcs.push(fuk[i]['eyel']);
+        srcs.push(fuk[i]['eyer']);
+        srcs.push(fuk[i]['nose']);
+        srcs.push(fuk[i]['mouth']);
+    }
+    console.log(srcs);
+    
     var images = [];
     for (var i in srcs) {
         images[i] = new Image();
@@ -128,10 +137,6 @@ function canvas_fukuwarai() {
     };
 
     // canvasにイベント登録
-    //canvas.addEventListener('mousedown', function(e){mouseDown(e);}, false);
-    //canvas.addEventListener('mousemove', function(e){mouseMove(e);}, false);
-    //canvas.addEventListener('mouseup',   function(e){mouseUp(e);},   false);
-    //canvas.addEventListener('mouseout',  function(e){mouseOut(e);},  false);
 
     canvas.addEventListener('touchstart', function(e){touchStart(e);}, false);
     canvas.addEventListener('touchmove', function(e){touchMove(e);}, false);

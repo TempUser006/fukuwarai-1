@@ -24,10 +24,19 @@
         width :2em;
         height:2em;
     }
+    .page__background{
+        background-image:  url("./image/parts/bg.jpg");
+        background-repeat: repeat;
+        background-position: center;
+    }
   </style>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/b64utils.js"></script>
+  <script src="js/saveImage.js"></script>
+  <script src="js/display.js"></script>
   <script src="js/animation.js"></script>
   <script src="js/roulette.js"></script>
-  <script src="js/b64utils.js"></script>
+  <!--<script src="js/imageSave.js"></script>-->
   <script>
         $.ajaxSetup({ cache: false });
         var img = [];//元画像配列
@@ -100,7 +109,7 @@
             });
         }
         function SaveFukuwarai () {
-          var myCanvas = $("canvas#canvas").get(0);
+          var myCanvas = $('#fukuCanvas').get(0);
           var url = myCanvas.toDataURL("image/png");
           var base64data = url.split(',')[1];
  
@@ -139,18 +148,31 @@
         }
         function F_upload(method,image){
                 var defer = new $.Deferred();
+                console.log(image);
                 $.ajax({
-                    url:'http://wtr0201.xsrv.jp/FukReturnTest/request.php',//TODO::かく
+                    url:'http://fukuwarai-app.herokuapp.com/image',//TODO::かく
                     type:'POST',
-                    data:{
-                        'image' : image,
+                    contentType:'application/json; charset=utf-8',
+                    //dataType: 'binary',
+                    //responseType:'blob',
+                    dataType: 'text',
+                    data: JSON.stringify({
+                        'image' : String( image ),
                         'method': method
+                    }),
+                    success:function(data){
+                        console.log("succeed");
+                    },error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+                        console.log("textStatus : " + textStatus);
+                        console.log("errorThrown : " + errorThrown.message);
                     }
                 })
                 .done(function(data){
                     switch(method){
                         case 'fukuwarai':
                             fuk.push(data);
+                            console.log(data);
                             break;
                         case 'roulette':
                             rou.push(data);
@@ -190,9 +212,9 @@
         <ons-button id="pop-button">やり直す</ons-button>
         <ons-button id="do-button">実行</ons-button>
         <br /><br />
-        <ons-button id="to-fuk" onclick="Fukuwarai()"><ons-icon icon="fa-picture-o"></ons-icon> 福笑い</ons-button>
+        <ons-button id="to-fuk" onclick="Fukuwarai()"><ons-icon icon="fa-picture-o"></ons-icon>福笑い</ons-button>
         <br /><br />
-        <ons-button id="to-rou" onclick="Roulette()"><ons-icon icon="fa-picture-o"></ons-icon> ルーレット</ons-button>
+        <ons-button id="to-rou" onclick="Roulette()"><ons-icon icon="fa-picture-o"></ons-icon>ルーレット</ons-button>
           
         <br /><br />
         <ons-button id="to-cam" onclick="snapPicture()" class="main-btn"><ons-icon icon="fa-camera"></ons-icon></ons-button>
@@ -203,8 +225,10 @@
   
   <ons-template id="page3.html">
     <ons-page id="third-page" style="text-align: center">
-        <canvas id="canvas" height="500" width="470"></canvas>
-        <ons-button id="save_fukuwarai" onclick="SaveFukuwarai()">保存する</ons-button>
+        <canvas id="fukuCanvas" height="300" width="470"></canvas>
+        <ons-button id="save_fukuwarai" onclick="SaveFukuwarai();">保存する</ons-button>
+        <ons-button id="display" onclick="loadImage();">表示する</ons-button>
+        <ons-button id="confirm" onclick="onDeviceReady();">保存する</ons-button>
         <ons-button id="pop-button">やり直す</ons-button>
     </ons-page>
   </ons-template>
@@ -213,9 +237,9 @@
       <div class="content" style="text-align: center">
         <ons-button id="start">スタート！</ons-button>
         <div id="canvases">
-            <canvas id="top" width="300" height="50"></canvas>      
-            <canvas id="middle" width="300" height="50"></canvas>
-            <canvas id="bottom" width="300" height="50"></canvas>
+            <canvas id="top" width="400" height="50"></canvas>      
+            <canvas id="middle" width="400" height="50"></canvas>
+            <canvas id="bottom" width="400" height="50"></canvas>
             <ons-button id="top_stop">ストップ01</ons-button>
             <ons-button id="middle_stop">ストップ02</ons-button>
             <ons-button id="bottom_stop">ストップ03</ons-button>

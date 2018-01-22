@@ -7,14 +7,14 @@ function canvas_fukuwarai(fuk) {
     //     tmp.drawImage(img, 0, 0);
     // }
     
-    var canvas  = document.getElementById('canvas');
+    var canvas  = document.getElementById('fukuCanvas');
     var context = canvas.getContext('2d');
     
     
     var img3 = new Image();
-    img3.src = "image/tmp.jpg";
+    img3.src = "image/fuku/tmp.jpg";
     img3.onload = function() {
-        context.drawImage(img3, 0, 100);
+        //context.drawImage(img3, 0, 100);
     }
 
     var isTouch = false;
@@ -42,7 +42,7 @@ function canvas_fukuwarai(fuk) {
         images[i].src = srcs[i];
     }
 
-    var loadedCount = 0;
+   var loadedCount = 0;
     for (var i in images) {
         images[i].addEventListener('load', function() {
             if (++loadedCount == images.length) {

@@ -14,7 +14,7 @@ function canvas_fukuwarai(fuk) {
     var img3 = new Image();
     img3.src = "image/fuku/tmp.jpg";
     img3.onload = function() {
-        context.drawImage(img3, 0, 100);
+        //context.drawImage(img3, 0, 100);
     }
 
     var isTouch = false;
@@ -27,6 +27,8 @@ function canvas_fukuwarai(fuk) {
 //         'image/fuku/nose.PNG',
 //         'image/fuku/mouth.PNG'
 //     ];
+    //b64utils.decode(fuk);
+    //console.log(fuk);
     var srcs = [];
     for(var i = 0; i < fuk.length; i++) {
         srcs.push(fuk[i]['eyel']);
@@ -34,13 +36,16 @@ function canvas_fukuwarai(fuk) {
         srcs.push(fuk[i]['nose']);
         srcs.push(fuk[i]['mouth']);
     }
-    console.log(fuk);
+    //console.log(srcs[0]);
+    //var array = b64utils.decode(srcs[0]);
+    //console.log(array);
     
     var images = [];
     for (var i in srcs) {
         images[i] = new Image();
-        images[i].src = srcs[i];
+        images[i].src = "data:image/jpeg;base64," + srcs[i];
     }
+    console.log(images[0]);
 
    var loadedCount = 0;
     for (var i in images) {

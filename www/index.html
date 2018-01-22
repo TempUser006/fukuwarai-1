@@ -16,13 +16,16 @@
         width: 100%;
     }
     .main-btn{
-        border-radius: 2em;
-        padding: 1em;
+        border-radius: 4em;
+        padding: 1.8em;
         font-size: x-large;
     }
+    ons-button{
+        background: rgba(255, 30, 30, .81)!important;
+    }
     ons-icon{
-        width :2em;
-        height:2em;
+        font-size: 2em!important;
+        height: 1em;
     }
     .page__background{
         background-image:  url("./image/parts/bg.jpg");
@@ -196,7 +199,8 @@
   <ons-template id="page1.html">
     <ons-page id="first-page">
         <div class="content" style="text-align: center">
-          <h1>Fukuwarai</h1>
+          <h1><img src="image/logo/text.png" alt="Fukuwarai" style="width:80%" /></h1>
+          <div><img src="image/logo/logo.png" alt="okame"  style="width:60%;padding-bottom:3em" /></div>
         <ons-button id="to-cam" onclick="snapPicture()" class="main-btn"><ons-icon icon="fa-camera"></ons-icon></ons-button>
         <ons-button id="to-lib" onclick="getPhoto()" class="main-btn"><ons-icon icon="fa-picture-o"></ons-icon></ons-button>
         </div>
@@ -211,12 +215,9 @@
             <img id="picture" src="" style="width:100%" />
         </div>
         <ons-button id="pop-button">やり直す</ons-button>
-        <ons-button id="do-button">実行</ons-button>
         <br /><br />
         <ons-button id="to-fuk" onclick="Fukuwarai()"><ons-icon icon="fa-picture-o"></ons-icon>福笑い</ons-button>
-        <br /><br />
         <ons-button id="to-rou" onclick="Roulette()"><ons-icon icon="fa-picture-o"></ons-icon>ルーレット</ons-button>
-          
         <br /><br />
         <ons-button id="to-cam" onclick="snapPicture()" class="main-btn"><ons-icon icon="fa-camera"></ons-icon></ons-button>
         <ons-button id="to-lib" onclick="getPhoto()" class="main-btn"><ons-icon icon="fa-picture-o"></ons-icon></ons-button>
@@ -228,8 +229,8 @@
     <ons-page id="third-page" style="text-align: center">
         <canvas id="fukuCanvas" height="400" width="450"></canvas>
         <ons-button id="save_fukuwarai" onclick="SaveFukuwarai();">保存する</ons-button>
-        <ons-button id="display" onclick="loadImage();">表示する</ons-button>
-        <ons-button id="confirm" onclick="onDeviceReady();">保存する</ons-button>
+        <!--<ons-button id="display" onclick="loadImage();">表示する</ons-button>-->
+        <!--<ons-button id="confirm" onclick="onDeviceReady();">保存する</ons-button>-->
         <ons-button id="pop-button">やり直す</ons-button>
     </ons-page>
   </ons-template>

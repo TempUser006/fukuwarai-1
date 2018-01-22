@@ -46,7 +46,7 @@ function saveImage() {
 
     function getFileName(fileEntries) {
         for (var index = 0; index < fileEntries.length; index++) {
-            console.log(fileEntries[index].toURL())
+            //console.log(fileEntries[index].toURL())
         }
     }
     function fail(error) {

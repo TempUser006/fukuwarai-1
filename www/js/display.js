@@ -16,6 +16,7 @@ function loadImage() {
                         var canvas = $("#fukuCanvas");
                         var myCanvas = canvas.get(0);
                         var myContext = myCanvas.getContext("2d");
+                        myContext.clearRect(0,0,400,450);
                         myContext.drawImage( img , 0, 0 );
                       }
  

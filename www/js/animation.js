@@ -14,7 +14,7 @@ function canvas_fukuwarai(fuk) {
     var img3 = new Image();
     img3.src = "image/fuku/tmp.jpg";
     img3.onload = function() {
-        //context.drawImage(img3, 0, 100);
+        context.drawImage(img3, 0, 100);
     }
 
     var isTouch = false;
@@ -34,7 +34,7 @@ function canvas_fukuwarai(fuk) {
         srcs.push(fuk[i]['nose']);
         srcs.push(fuk[i]['mouth']);
     }
-    console.log(srcs);
+    console.log(fuk);
     
     var images = [];
     for (var i in srcs) {

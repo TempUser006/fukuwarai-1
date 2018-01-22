@@ -148,7 +148,7 @@
         }
         function F_upload(method,image){
                 var defer = new $.Deferred();
-                console.log(image);
+                //console.log(image);
                 $.ajax({
                     url:'http://fukuwarai-app.herokuapp.com/image',//TODO::かく
                     type:'POST',
@@ -172,7 +172,8 @@
                     switch(method){
                         case 'fukuwarai':
                             fuk.push(data);
-                            console.log(data);
+                            //確認用
+                            //console.log(data);
                             break;
                         case 'roulette':
                             rou.push(data);
@@ -225,7 +226,7 @@
   
   <ons-template id="page3.html">
     <ons-page id="third-page" style="text-align: center">
-        <canvas id="fukuCanvas" height="300" width="470"></canvas>
+        <canvas id="fukuCanvas" height="400" width="450"></canvas>
         <ons-button id="save_fukuwarai" onclick="SaveFukuwarai();">保存する</ons-button>
         <ons-button id="display" onclick="loadImage();">表示する</ons-button>
         <ons-button id="confirm" onclick="onDeviceReady();">保存する</ons-button>

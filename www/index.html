@@ -21,7 +21,7 @@
         font-size: x-large;
     }
     ons-button{
-        background: rgba(255, 30, 30, .81)!important;
+        background: rgba(255, 30, 30, .8)!important;
     }
     ons-icon{
         font-size: 2em!important;
@@ -36,6 +36,7 @@
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/b64utils.js"></script>
   <script src="js/saveImage.js"></script>
+  <script src="js/loadImage.js"></script>
   <script src="js/display.js"></script>
   <script src="js/animation.js"></script>
   <script src="js/roulette.js"></script>
@@ -52,6 +53,8 @@
           var page = event.target;
         
         if (page.id === ('first-page')) {
+                //検証用・本番では必ず削除
+                // document.querySelector('#navigator').pushPage('page2.html');
         }else if(page.id === "second-page") {
             // tab2.htmlに対するDOM操作
             document.getElementById("picture").src = page.data.img;
@@ -76,7 +79,7 @@
          ********/
         function snapPicture () {//カメラ撮影
             navigator.camera.getPicture (onSuccess, onFail,
-                                         { quality: 50, destinationType: Camera.DestinationType.DATA_URL});
+                                         { quality: 5, destinationType: Camera.DestinationType.DATA_URL});
             //A callback function when snapping picture is success.
             function onSuccess (imageData) {
                 document.querySelector('#navigator').pushPage('page2.html',{data:{img:"data:image/jpeg;base64,"+imageData}});
@@ -107,7 +110,7 @@
         function Fukuwarai () {
             var Fupload = F_upload('fukuwarai',img);
             $.when(Fupload).done(function(res){
-                fuk = res;
+                fuk = JSON.parse(res)['data'];
                 document.querySelector('#navigator').pushPage('page3.html');
             });
         }
@@ -125,7 +128,8 @@
                   function(writer) {
  
                     var cb = function() {
-                      console.log("write end"); alert("Save OK");
+                      console.log("保存終了"); 
+                      alert("保存完了");
                     }
  
                     writer.onwrite = cb;
@@ -153,19 +157,17 @@
                 var defer = new $.Deferred();
                 //console.log(image);
                 $.ajax({
-                    url:'http://fukuwarai-app.herokuapp.com/image',//TODO::かく
-                    type:'POST',
-                    contentType:'application/json; charset=utf-8',
-                    //dataType: 'binary',
-                    //responseType:'blob',
-                    dataType: 'text',
+                    url:'https://fukuwarai-app.herokuapp.com/image',//TODO::かく
+                    type:'post',
                     data: JSON.stringify({
-                        'image' : String( image ),
-                        'method': method
+                        image : String( image ),
+                        method: method
                     }),
+                    contentType: 'application/json',
+                    dataType : 'text',
                     success:function(data){
                         console.log("succeed");
-                    },error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    },error : function(XMLHttpRequest, textStatus, errorThrown, data) {
                         console.log("XMLHttpRequest : " + XMLHttpRequest.status);
                         console.log("textStatus : " + textStatus);
                         console.log("errorThrown : " + errorThrown.message);
@@ -199,8 +201,8 @@
   <ons-template id="page1.html">
     <ons-page id="first-page">
         <div class="content" style="text-align: center">
-          <h1><img src="image/logo/text.png" alt="Fukuwarai" style="width:80%" /></h1>
-          <div><img src="image/logo/logo.png" alt="okame"  style="width:60%;padding-bottom:3em" /></div>
+          <h1><img src="image/logo/text.png" alt="Fukuwarai" style="width:100%;padding:1em 0" /></h1>
+          <div><img src="image/logo/logo.png" alt="okame"  style="width:40%;padding-bottom:3em" /></div>
         <ons-button id="to-cam" onclick="snapPicture()" class="main-btn"><ons-icon icon="fa-camera"></ons-icon></ons-button>
         <ons-button id="to-lib" onclick="getPhoto()" class="main-btn"><ons-icon icon="fa-picture-o"></ons-icon></ons-button>
         </div>
@@ -216,8 +218,8 @@
         </div>
         <ons-button id="pop-button">やり直す</ons-button>
         <br /><br />
-        <ons-button id="to-fuk" onclick="Fukuwarai()"><ons-icon icon="fa-picture-o"></ons-icon>福笑い</ons-button>
-        <ons-button id="to-rou" onclick="Roulette()"><ons-icon icon="fa-picture-o"></ons-icon>ルーレット</ons-button>
+        <ons-button id="to-fuk" onclick="Fukuwarai()"><img src="image/logo/fukuwarai.png" alt="fukuwarai" style="height:4em" /><br />福笑い</ons-button>
+        <ons-button id="to-rou" onclick="Roulette()"><img src="image/logo/roulette.png" alt="roulette" style="height:4em" /><br />ルーレット</ons-button>
         <br /><br />
         <ons-button id="to-cam" onclick="snapPicture()" class="main-btn"><ons-icon icon="fa-camera"></ons-icon></ons-button>
         <ons-button id="to-lib" onclick="getPhoto()" class="main-btn"><ons-icon icon="fa-picture-o"></ons-icon></ons-button>
@@ -228,8 +230,8 @@
   <ons-template id="page3.html">
     <ons-page id="third-page" style="text-align: center">
         <canvas id="fukuCanvas" height="400" width="450"></canvas>
-        <ons-button id="save_fukuwarai" onclick="SaveFukuwarai();">保存する</ons-button>
-        <!--<ons-button id="display" onclick="loadImage();">表示する</ons-button>-->
+        <ons-button id="save_fukuwarai" onclick="saveImage();">保存する</ons-button>
+        <ons-button id="display" onclick="loadImage();">表示する</ons-button>
         <!--<ons-button id="confirm" onclick="onDeviceReady();">保存する</ons-button>-->
         <ons-button id="pop-button">やり直す</ons-button>
     </ons-page>

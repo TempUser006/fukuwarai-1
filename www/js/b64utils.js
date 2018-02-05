@@ -1,6 +1,5 @@
+/*** saveImage.jsとloadImage.jsで使うjsファイル ***/
 (function(){ 
-    
-    
     // see
     // https://developer.mozilla.org/ja/docs/Web/JavaScript/Base64_encoding_and_decoding
     function base64DecToArr (sBase64, nBlocksSize) {

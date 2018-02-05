@@ -1,3 +1,5 @@
+/*** saveImage.jsで保存された画像が正しく保存されているか確認するためのjsです ***/
+
 function loadImage() {
           window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {   
             fs.root.getFile("myimage1.png" , null, 

@@ -72,19 +72,19 @@
             }else if(page.id === "second-page") {
                 // tab2.htmlに対するDOM操作
                 document.getElementById("picture").src = page.data.img;
-                page.querySelector('#pop-button').onclick = function() {
-                    document.querySelector('#navigator').popPage();
-                }
+                // page.querySelector('#pop-button').onclick = function() {
+                //     document.querySelector('#navigator').popPage();
+                // }
             }else if(page.id === "third-page"){
                 canvas_fukuwarai(fuk);
-                page.querySelector('#pop-button').onclick = function() {
-                    document.querySelector('#navigator').popPage();
-                }
+                // page.querySelector('#pop-button').onclick = function() {
+                //     document.querySelector('#navigator').popPage();
+                // }
             }else if(page.id === "fourth-page"){
                 canvas_roulette(rou);
-                page.querySelector('#pop-button').onclick = function() {
-                    document.querySelector('#navigator').popPage();
-                }
+                // page.querySelector('#pop-button').onclick = function() {
+                //     document.querySelector('#navigator').popPage();
+                // }
             }
 
         });

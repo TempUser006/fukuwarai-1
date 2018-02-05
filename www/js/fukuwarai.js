@@ -1,7 +1,3 @@
-$(function(){
-    
-});
-
 function canvas_fukuwarai(fuk) {
     var canvas  = document.getElementById('fukuCanvas');
     var context = canvas.getContext('2d');
@@ -29,8 +25,6 @@ function canvas_fukuwarai(fuk) {
         images[i].drawHeight = srcs[i]['h'];
     }
 
-    console.log($('canvas').width());
-
     var min = 50 ;
     var max = $('canvas').width()-100 ;
 
@@ -38,7 +32,7 @@ function canvas_fukuwarai(fuk) {
     for (var i in images) {
         images[i].addEventListener('load', function() {
             if (++loadedCount == images.length) {
-                var x = Math.floor( Math.random() * (max + 1 - min) ) + min;
+                var x = 30;//Math.floor( Math.random() * (max + 1 - min) ) + min;
                 var y = 50;
                 var w = images[i].drawWidth;
                 var h = images[i].drawHeight;
@@ -49,7 +43,7 @@ function canvas_fukuwarai(fuk) {
 
                     // 画像を描画
                     context.drawImage(images[j], x, y, w, h);
-                    x = Math.floor( Math.random() * (max + 1 - min) ) + min;
+                    x += 50;//Math.floor( Math.random() * (max + 1 - min) ) + min;
                     //y += 70;
                 }
             }
@@ -98,7 +92,8 @@ function canvas_fukuwarai(fuk) {
         if (isTouch) {
             // canvas内を一旦クリア
             context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(img3, 0, 0);//先に背景を登録する
+            //先に背景を登録する
+            context.drawImage(img3, 0, 0);
 
             var x = 0;
             var y = 0;
@@ -128,7 +123,7 @@ function canvas_fukuwarai(fuk) {
 
     // canvasにイベント登録
     canvas.addEventListener('touchstart', function(e){touchStart(e);}, false);
-    canvas.addEventListener('touchmove', function(e){touchMove(e);}, false);
-    canvas.addEventListener('touchend',  function(e){touchEnd(e);},   false);
-    canvas.addEventListener('mouseout',  function(e){mouseOut(e);},  false);
+    canvas.addEventListener('touchmove',  function(e){touchMove(e);},  false);
+    canvas.addEventListener('touchend',   function(e){touchEnd(e);},   false);
+    canvas.addEventListener('mouseout',   function(e){mouseOut(e);},   false);
 };
